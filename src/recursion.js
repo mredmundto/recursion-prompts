@@ -165,18 +165,28 @@ var buildList = function(value, length, output) {
 	output.push(value)
 	return buildList(value, length, output)
 };
-
 // any way to not pass the output out???
+
+
 
 // 19. Count the occurence of a value inside a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+	if (array.length === 0){return null}
+	if (array.shift() === value){ // shift() is the same as splice(0,-1) it changes the original array
+		return 1 + countOccurrence(array, value)
+	}else{
+		return 0 + countOccurrence(array, value)
+	} 
 };
 
 // 20. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
+	var array = array.slice(); // array.slice() <= copying the array 
+	if (array.length === 1){return callback(array)} // returning the last element 
+	return [callback(array.shift())].concat(rMap(array, callback))
 };
 
 // 21. Write a function that counts the number of times a key occurs in an object.
@@ -218,11 +228,18 @@ var nthFibo = function(n) {
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
 var capitalizeWords = function(input) {
+	if (input.length === 1){return input[0].toUpperCase()}
+	return [input.shift().toUpperCase()].concat(capitalizeWords(input))
 };
 
 // 27. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car', 'poop', 'banana']); // ['Car', 'Poop', 'Banana']
 var capitalizeFirst = function(array) {
+	// base case 
+	// slice(1) => removing the first item and keeping the rest 
+	if (array.length === 1){return array[0].slice(0,1).toUpperCase() + array[0].slice(1)}
+	// slice(0,1) the first character === [0]
+	return [array[0].slice(0,1).toUpperCase() + array[0].slice(1)].concat(capitalizeFirst(array.slice(1)))
 };
 
 // 28. Return the sum of all even numbers in an object containing nested objects.
@@ -240,11 +257,22 @@ var nestedEvenSum = function(obj) {
 // 29. Flatten an array containing nested arrays.
 // Example: flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(arrays) {
+
+
 };
 
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
 var letterTally = function(str, obj) {
+	
+	// use this to define an obj to initialize 
+	var obj = obj || {}
+	// base case, at the end, return the original object 
+	if (str.length === 0 ){ return obj}
+	// keeping count 	
+	obj[str[0]] = (obj[str[0]] || 0 )+1 
+	// recursive case by passing in without the first character 
+	return letterTally(str.slice(1), obj)
 };
 
 // 31. Eliminate consecutive duplicates in a list.  If the list contains repeated
@@ -253,18 +281,45 @@ var letterTally = function(str, obj) {
 // Example: compress([1, 2, 2, 3, 4, 4, 5, 5, 5]) // [1, 2, 3, 4, 5]
 // Example: compress([1, 2, 2, 3, 4, 4, 2, 5, 5, 5, 4, 4]) // [1, 2, 3, 4, 2, 5, 4]
 var compress = function(list) {
+	// if thats the last item, then push 
+	if (list.length === 1){return list[0]}
+	// if they cant equal, then push, otherwise keep going  
+	if (list[0] !== list[1]){
+		return [list[0]].concat(compress(list.slice(1)))
+	}else{
+		return compress(list.slice(1)) 
+	}
 };
 
 // 32. Augument every element in a list with a new value where each element is an array
 // itself.
 // Example: augmentElements([[],[3],[7]], 5); // [[5],[3,5],[7,5]]
 var augmentElements = function(array, aug) {
+	
+	if (array.length === 1){
+	array[0].push(aug)
+	return [array[0]]}
+
+	array[0].push(aug)
+	return [array[0]].concat(augmentElements(array.slice(1),aug))
 };
 
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
 var minimizeZeroes = function(array) {
+	if (array.length === 1){
+		if (array[0] !== 0){
+			return array[0] 
+		}else{
+			return 
+		}
+	}
+	if (!(array[0] === 0 && array[1] === 0)){
+		return [array[0]].concat(minimizeZeroes(array.slice(1))) 
+	}else{
+		return minimizeZeroes(array.slice(1))
+	}
 };
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
