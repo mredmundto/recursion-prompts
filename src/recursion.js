@@ -138,7 +138,7 @@ var gcd = function(x, y) {
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
 	if (str1.length === 0 && str2.length === 0){ return true }
-	if (str1.length !== str2.length || str1[0] !== str2[0]){return false}
+	if (str1[0] !== str2[0]){return false}
 	return compareStr(str1.slice(1), str2.slice(1))
 
 };
@@ -190,22 +190,81 @@ var rMap = function(array, callback) {
 };
 
 // 21. Write a function that counts the number of times a key occurs in an object.
-// var testobj = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
+/*
+var testobj = {'e':{'x':'y'},
+			   't':{'r': {'e':'r'}, 
+					'p': {'y':'r'}},
+			   'y':'e'};
+
+*/
 // countKeysInObj(testobj, 'r') // 1
 // countKeysInObj(testobj, 'e') // 2
 var countKeysInObj = function(obj, key) {
+	var num = 0; 
+	for (var prop in obj){
+		if (prop === key){
+			num++
+		}
+		if (typeof obj[prop] === "object"){
+			// this is the key of not passing out 
+			num += countKeysInObj(obj[prop],key)
+		}
+	}
+	return num; 
 };
 
 // 22. Write a function that counts the number of times a value occurs in an object.
-// var testobj = {'e': {'x':'y'}, 't':{'r': {'e':'r'}, 'p': {'y':'r'}},'y':'e'};
+/*
+var testobj = {'e':{'x':'y'}, 
+			   't':{'r': {'e':'r'}, 
+			   		'p': {'y':'r'}},
+			   'y':'e'};
+
+
+*/
 // countValuesInObj(testobj, 'r') // 2
 // countValuesInObj(testobj, 'e') // 1
 var countValuesInObj = function(obj, value) {
+	var num = 0; 
+	for (var prop in obj){
+		if (obj[prop] === value){
+			num++
+		}
+		if (typeof obj[prop] === "object"){
+			num += countValuesInObj(obj[prop], value)
+		}
+	}
+	return num 
 };
 
 // 23. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
+/*
+var input  = {'e': {'x':'y'}, 
+			  't': {
+			  		'r': {'e':'r'}, 
+			  		'p': {'y':'r'}
+			  		}, 
+			  'y':'e'};
+var output = replaceKeysInObj(input, 'e', 'f');
+
+
+*/
+
 var replaceKeysInObj = function(obj, key, newKey) {
+	var newObj = {}
+	for (var prop in obj){
+		if (prop === key){
+			newObj[newKey] = obj[prop]
+		}else{
+			if (typeof obj[prop] === "object"){
+				newObj[prop] = replaceKeysInObj(obj[prop],key,newKey)
+			}else{
+				newObj[prop] = obj[prop]
+			}
+		}
+	}
+	return newObj
 };
 
 // 24. Get the first n Fibonacci numbers.  In the Fibonacci Sequence, each subsequent
