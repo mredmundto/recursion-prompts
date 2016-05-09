@@ -247,8 +247,6 @@ var input  = {'e': {'x':'y'},
 			  		}, 
 			  'y':'e'};
 var output = replaceKeysInObj(input, 'e', 'f');
-
-
 */
 
 var replaceKeysInObj = function(obj, key, newKey) {
@@ -272,7 +270,17 @@ var replaceKeysInObj = function(obj, key, newKey) {
 // Example:  0, 1, 1, 2, 3, 5, 8, 13, 21, 34.....
 // fibonacci(5);  // [0, 1, 1, 2, 3, 5]
 // Note:  The 0 is not counted.
-var fibonacci = function(n) {
+var fibonacci = function(n, array) {
+	if (n === 1){return [0,1]}
+	if (n <= 0){return null}
+
+ 	var array = array || [0,1,1]
+ 	if (array.length-1 === n){
+		return array 
+	}	
+	array.push(array[array.length-1]+array[array.length-2])
+// question to ask Alexxis <= how to do recursion not using passing out the variable!
+	return fibonacci(n,array)
 };
 
 // 25. Return the Fibonacci number located at index n of the Fibonacci sequence.
@@ -281,6 +289,13 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+
+	if (n < 0){ return null}
+	if (n === 2){return 1}
+	if (n === 1){return 1}
+	if (n === 0){return 0}
+
+	return  nthFibo(n-2) + nthFibo(n-1)
 };
 
 // 26. Given an array of words, return a new array containing each word capitalized.
@@ -311,19 +326,34 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
+	var num = 0; 
+	for (var prop in obj){
+		if (obj[prop] % 2 === 0){ num += obj[prop]}
+		if (typeof obj[prop] === "object"){
+			num += nestedEvenSum(obj[prop])
+		}
+	}
+	return num; 
 };
 
 // 29. Flatten an array containing nested arrays.
 // Example: flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(arrays) {
-
-
-};
+	var newArray = []
+	for (var i = 0; i < arrays.length; i++){
+		if (Array.isArray(arrays[i])){
+			// this is the line which concat till no more nested 
+			newArray = newArray.concat(flatten(arrays[i]))
+		}else{
+			newArray.push(arrays[i])
+		}
+	}
+	return newArray
+}
 
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
 var letterTally = function(str, obj) {
-	
 	// use this to define an obj to initialize 
 	var obj = obj || {}
 	// base case, at the end, return the original object 
@@ -386,6 +416,9 @@ var minimizeZeroes = function(array) {
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
+
+
+
 };
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
