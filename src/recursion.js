@@ -116,6 +116,10 @@ var modulo = function(x, y) {
 // 12. Write a function that multiplies two numbers without using the * operator  or
 // JavaScript's Math object.
 var multiply = function(x, y) {
+	if (y === 1){return x}
+	x = x + x 
+	return multiply(x, y-1)
+
 };
 
 // 13. Write a function that divides two numbers without using the / operator  or
@@ -416,15 +420,42 @@ var minimizeZeroes = function(array) {
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
-
-
-
+	if (typeof array === "number"){return array}
+	var num = []
+	for (var i = 0; i < array.length; i++){
+		if (i % 2 === 0){
+			num.push(Math.abs(alternateSign(array[i])))
+		}else{
+			num.push(-1 * Math.abs(alternateSign(array[i])))
+		}
+	}
+	return num 
 };
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
+	var dict = {
+		1: "one", 
+		2: "two", 
+		3: "three",
+		4: "four", 
+		5: "five",
+		6: "six",
+		7: "seven",
+		8: "eight",
+		9: "nine",
+		10: "ten"
+	}
+	if (str.length === 0){return ""}
+
+	if (dict.hasOwnProperty(str[0])){
+		return dict[str[0]] + numToText(str.slice(1))
+	}else{
+		return str[0] + numToText(str.slice(1))
+	}
+
 };
 
 // *** EXTRA CREDIT ***
