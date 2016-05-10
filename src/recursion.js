@@ -105,26 +105,9 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
-	if (x >= 0 && y >= 0 ){
-		if (y > x){
-			console.log(x)
-			return x}
-		return modulo(x-y,y) 
-	}else if (x <= 0 && y >= 0){
-		if (y > x){
-			console.log(x)
-			return x}
-		return modulo(x+y,y)
-	}else if (x <= 0 && y <= 0){
-		if (y < x ){
-			return x 
-		}
-		return modulo(x-y,y)
-	}else if( x <= 0 && y >= 0){
-
-	}
-	
-	// not yet done 
+ 	if (y >= x){return x}
+ 	return modulo(x-y, y)	
+	// not yet done to handle negative cases 
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator  or
@@ -144,7 +127,24 @@ var multiply = function(x, y) {
 
 // 13. Write a function that divides two numbers without using the / operator  or
 // JavaScript's Math object.
+
+
 var divide = function(x, y) {
+
+	if (x > 0 && y > 0){
+		if (y > x){return 0}else if (y == x ){return 1 }
+		return 1 + divide(x-y,y)
+	}else if (x < 0 && y < 0){
+		if (y < x){return 0}else if (y == x ){return 1 }
+		return 1 + divide(x-y,y)
+	};
+	if (x === 0){ 
+		return NaN}
+	if (y === 0){
+		return NaN}
+	// not yet able to handle one negative the other one postive, can deal with positive and negative 
+
+
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers.  The GCD of two
@@ -154,11 +154,9 @@ var divide = function(x, y) {
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
 	if (x < 0 || y < 0){return null }
-	
 	if (! y){
 		return x 
 	}	
-	
 	return gcd (y, x % y)
  };
 
