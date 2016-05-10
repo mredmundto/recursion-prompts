@@ -30,13 +30,11 @@ var arraySum = function(array) {
 // 4. Check if a number is even.
 var isEven = function(n) {
 	if (n < 0){n = -n} // turning negative number to positive 
-
 	if (n === 0){
 		return true
 	}else if(n === 1){
 		return false
 	} 
-
 	return isEven(n-2) // must have a return at the end 
 };
 
@@ -107,19 +105,41 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
-	// not yet finish to handle negative cases 
-	if (y > x){return x}
-	x = x-y; 
-	return modulo(x,y)
+	if (x >= 0 && y >= 0 ){
+		if (y > x){
+			console.log(x)
+			return x}
+		return modulo(x-y,y) 
+	}else if (x <= 0 && y >= 0){
+		if (y > x){
+			console.log(x)
+			return x}
+		return modulo(x+y,y)
+	}else if (x <= 0 && y <= 0){
+		if (y < x ){
+			return x 
+		}
+		return modulo(x-y,y)
+	}else if( x <= 0 && y >= 0){
+
+	}
+	
+	// not yet done 
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator  or
 // JavaScript's Math object.
 var multiply = function(x, y) {
-	if (y === 1){return x}
-	x = x + x 
-	return multiply(x, y-1)
-
+	if (x >= 0 && y >= 0){
+		if (y === 0){return 0}
+		return x + multiply(x, y-1)
+	}else if (x <= 0 && y >= 0){ 
+		if (y === 0){return 0}
+		return x + multiply(x, y-1)
+	}else if (x <= 0 && y <= 0){
+		if (y === 0){return 0}
+		return -x + multiply(x, y+1)
+	} 
 };
 
 // 13. Write a function that divides two numbers without using the / operator  or
@@ -133,7 +153,14 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
-};
+	if (x < 0 || y < 0){return null }
+	
+	if (! y){
+		return x 
+	}	
+	
+	return gcd (y, x % y)
+ };
 
 // 15. Write a function that compares each character of two strings and returns true if
 // both are identical.
