@@ -15,16 +15,42 @@ var factorial = function(n) {
 var sum = function(array) {
 	array = array.slice() // not mutate the input	
 	if (array.length == 0){return 0}
-	return Number(array.splice(0,1)) + sum(array)
+	// converting into number then add up 
+	return Number(array[0]) + sum(array.slice(1))
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // Example: arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
-	array = _.flatten(array) 
-	if (array.length == 0){ return 0}
-	return Number(array.splice(0,1)) + arraySum(array)
+	
+	/*  Using inner function to handle first
+	var num = 0; // initial state (1)
+	function inner(item){ 
+		for (var i = 0; i < item.length; i ++){ // (2)for loop to check all 
+			if (Array.isArray(item[i])){
+				inner(item[i]) // (3) if thats an array again, inner()
+			}else{
+				num += item[i] // (4)else push 
+			}
+		}
+	}
+	inner(array) //(5)<= remember to call the inner function 
+	return num;  //(6)
+	*/ 
 
+	// converting inner function to no inner function 
+	var num = num || 0; // (1) change to output = output || initial value
+	 // (2)remove inner function // change all the inner to parent function  
+		for (var i = 0; i < array.length; i ++){ 
+			if (Array.isArray(array[i])){
+				// (3)changed to inner // (4) add to the store
+				num += arraySum(array[i]) 
+				// (5)change the inner variable to the parent variable 
+			}else{
+				num += array[i] //  
+			}
+		}
+	return num;
 };
 
 // 4. Check if a number is even.
