@@ -215,33 +215,32 @@ var reverseArr = function (array) {
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length, output) {
-	var output = output || []
-	if (output.length === length){return output}
+	var output = output || []; 
+	if (output.length === length){
+		return output
+	}
 	output.push(value)
 	return buildList(value, length, output)
 };
 // any way to not pass the output out???
 
-
-
 // 19. Count the occurence of a value inside a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
-	if (array.length === 0){return null}
-	if (array.shift() === value){ // shift() is the same as splice(0,-1) it changes the original array
-		return 1 + countOccurrence(array, value)
+	if (array.length === 0){return 0}
+	if (array[0] === value){
+		return 1 + countOccurrence(array.slice(1),value)
 	}else{
-		return 0 + countOccurrence(array, value)
-	} 
+		return 0 + countOccurrence(array.slice(1),value)
+	}
 };
 
 // 20. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
-	var array = array.slice(); // array.slice() <= copying the array 
 	if (array.length === 1){return callback(array)} // returning the last element 
-	return [callback(array.shift())].concat(rMap(array, callback))
+	return [callback(array[0])].concat(rMap(array.slice(1), callback))
 };
 
 // 21. Write a function that counts the number of times a key occurs in an object.
@@ -280,16 +279,23 @@ var testobj = {'e':{'x':'y'},
 // countValuesInObj(testobj, 'r') // 2
 // countValuesInObj(testobj, 'e') // 1
 var countValuesInObj = function(obj, value) {
+	// initial num 
 	var num = 0; 
+	// loop through all elements
+
 	for (var prop in obj){
+		// if thats equal, add one 
 		if (obj[prop] === value){
-			num++
+			num ++
 		}
 		if (typeof obj[prop] === "object"){
 			num += countValuesInObj(obj[prop], value)
+		// if thats an nested object, num += 
 		}
-	}
+	}	 
 	return num 
+	// return the nun
+
 };
 
 // 23. Find all keys in an object (and nested objects) by a provided name and rename
@@ -305,18 +311,24 @@ var output = replaceKeysInObj(input, 'e', 'f');
 */
 
 var replaceKeysInObj = function(obj, key, newKey) {
-	var newObj = {}
+	// define a new object 
+	var newObj = {}; 
+	// loop through all elements using for in loop for object 
 	for (var prop in obj){
-		if (prop === key){
+		// if the old key is there
+		if (key === prop){
+			// then to replace with new ket 
 			newObj[newKey] = obj[prop]
 		}else{
+			// if the old key is not there, but that's an object, invoke the nested object  
 			if (typeof obj[prop] === "object"){
-				newObj[prop] = replaceKeysInObj(obj[prop],key,newKey)
-			}else{
-				newObj[prop] = obj[prop]
+				obj[prop] = replaceKeysInObj(obj[prop], key, newKey)
 			}
+			// else just copy the old key/value pairs to the new object 
+			newObj[prop] = obj[prop]
 		}
 	}
+	// return the new object 
 	return newObj
 };
 
@@ -358,7 +370,7 @@ var nthFibo = function(n) {
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
 var capitalizeWords = function(input) {
 	if (input.length === 1){return input[0].toUpperCase()}
-	return [input.shift().toUpperCase()].concat(capitalizeWords(input))
+	return [input[0].toUpperCase()].concat(capitalizeWords(input.slice(1)))
 };
 
 // 27. Given an array of strings, capitalize the first letter of each index.
@@ -499,14 +511,13 @@ var numToText = function(str) {
 		9: "nine",
 		10: "ten"
 	}
+
+
 	if (str.length === 0){return ""}
-
-	if (dict.hasOwnProperty(str[0])){
-		return dict[str[0]] + numToText(str.slice(1))
-	}else{
-		return str[0] + numToText(str.slice(1))
-	}
-
+	return (dict[str[0]] || str[0]) + numToText(str.slice(1))
+	
+	// functional one line way 
+	// return str.split("").map(function(item){return dict[item] || item}).join("")
 };
 
 // *** EXTRA CREDIT ***
