@@ -256,7 +256,7 @@ var testobj = {'e':{'x':'y'},
 var countKeysInObj = function(obj, key) {
 	var num = 0; 
 	for (var prop in obj){
-		if (prop === key){
+		if (prop === key){ // if (obj[prop] === value) for value 
 			num++
 		}
 		if (typeof obj[prop] === "object"){
@@ -531,6 +531,27 @@ var tagCount = function(tag, node) {
 // console.log(binarySearch(5)) will return '5'
 
 var binarySearch = function(array, target, min, max) {
+	
+	var min = min || 0; 
+	var max = max || array.length-1; 
+	var current = Math.round((min + max)/2)
+	
+	if (array[min] === target){
+		return min 
+		// if we use round we could never get to 0 so we need to use this statement to check the min
+		// we could use floor instead than we will need to check max 
+	}else if (array[current] === target){
+		return current; 
+	}else if ((max-min == 1)){
+		return null 
+	}
+	else if (target > array[current]){
+		return binarySearch(array, target, current, max)
+	}else{
+		return binarySearch(array, target, min, current)
+	}
+
+
 };
 
 // 38. Write a merge sort function.
