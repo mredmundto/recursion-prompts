@@ -531,7 +531,6 @@ var tagCount = function(tag, node) {
 // console.log(binarySearch(5)) will return '5'
 
 var binarySearch = function(array, target, min, max) {
-	
 	var min = min || 0; 
 	var max = max || array.length-1; 
 	var current = Math.round((min + max)/2)
@@ -550,12 +549,36 @@ var binarySearch = function(array, target, min, max) {
 	}else{
 		return binarySearch(array, target, min, current)
 	}
-
-
 };
 
 // 38. Write a merge sort function.
 // Sample array:  [34,7,23,32,5,62]
 // Sample output: [5,7,23,32,34,62]
 var mergeSort = function(array) {
+	// using a function to merge two array 
+	var merge = function(left, right){
+		var output = [];
+		while(left.length > 0 && right.length > 0){
+			if(left[0] < right[0]){
+				output.push(left[0])
+				left.shift()
+			}else{
+				output.push(right[0])
+				right.shift()
+			}
+		} 
+		// concat is for the remaining element in the list
+		return output.concat(left).concat(right)
+	}
+	
+	// base case if thats an item 
+	if (array.length < 2){
+		return array		
+	}
+	
+	var mid = Math.floor(array.length/2) // spliting the mid 
+	var leftArray = array.slice(0,mid)
+	var rightArray = array.slice(mid)
+	
+	return merge(mergeSort(leftArray), mergeSort(rightArray))
 };
